@@ -2,7 +2,7 @@
 $config = [
     'homeUrl' => Yii::getAlias('@frontendUrl'),
     'controllerNamespace' => 'frontend\controllers',
-    'defaultRoute' => 'site/index',
+    'defaultRoute' => 'users/index',
     'bootstrap' => ['maintenance'],
     'modules' => [
         'user' => [

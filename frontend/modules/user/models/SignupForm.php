@@ -14,6 +14,9 @@ use yii\helpers\Url;
 
 /**
  * Signup form
+ * @property string $phone_number
+ * @property string $first_name
+ * @property string $last_name
  */
 class SignupForm extends Model
 {
@@ -35,12 +38,27 @@ class SignupForm extends Model
     public $password_confirm;
 
     /**
+     * @var string
+     */
+    public $phone_number;
+
+    /**
+     * @var string
+     */
+    public $first_name;
+
+    /**
+     * @var string
+     */
+    public $last_name;
+
+    /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['username', 'email', 'password', 'password_confirm'], 'required'],
+            [['username', 'email', 'password', 'password_confirm', 'phone_number', 'first_name', 'last_name'], 'required'],
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'unique',
                 'targetClass' => '\common\models\User',
@@ -66,10 +84,13 @@ class SignupForm extends Model
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('frontend', 'Username'),
+            'username' => 'Логин',
             'email' => Yii::t('frontend', 'E-mail'),
             'password' => Yii::t('frontend', 'Password'),
-            'password_confirm' => Yii::t('frontend', 'Confirm Password')
+            'password_confirm' => Yii::t('frontend', 'Confirm Password'),
+            'phone_number' => 'Номер телефона',
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия'
         ];
     }
 
@@ -86,6 +107,9 @@ class SignupForm extends Model
             $user = new User();
             $user->username = $this->username;
             $user->email = $this->email;
+            $user->phone_number = $this->phone_number;
+            $user->first_name = $this->first_name;
+            $user->last_name = $this->last_name;
             $user->status = $shouldBeActivated ? User::STATUS_NOT_ACTIVE : User::STATUS_ACTIVE;
             $user->setPassword($this->password);
             if (!$user->save()) {

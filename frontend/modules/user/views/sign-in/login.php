@@ -22,11 +22,6 @@ $this->title = Yii::t('frontend', 'Login');
                     <?php echo $form->field($model, 'identity') ?>
                     <?php echo $form->field($model, 'password')->passwordInput() ?>
 
-                    <div class="d-flex justify-content-between">
-                        <?php echo $form->field($model, 'rememberMe')->checkbox() ?>
-                        <?php echo Html::a(Yii::t('frontend', 'Forgot your password?'), ['sign-in/request-password-reset'], ['class' => ['text-sm']]) ?>
-                    </div>
-
                     <div class="form-group">
                         <?php echo Html::submitButton(Yii::t('frontend', 'Login'), ['class' => 'btn btn-primary btn-lg btn-block', 'name' => 'login-button']) ?>
                     </div>
@@ -39,21 +34,6 @@ $this->title = Yii::t('frontend', 'Login');
                 </div>
             </div>
 
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="text-muted text-center"><?php echo Yii::t('frontend', 'Log in with')  ?></h4>
-
-                    <?php $authAuthChoice = yii\authclient\widgets\AuthChoice::begin([
-                        'baseAuthUrl' => ['site/auth']
-                    ]); ?>
-                    <ul class="list-inline d-flex justify-content-center">
-                        <?php foreach ($authAuthChoice->getClients() as $client) : ?>
-                            <li class="list-inline-item"><?= $authAuthChoice->clientLink($client) ?></li>
-                        <?php endforeach; ?>
-                    </ul>
-                    <?php yii\authclient\widgets\AuthChoice::end(); ?>
-                </div>
-            </div>
         </div>
     </div>
 </div>

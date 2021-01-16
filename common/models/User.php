@@ -2,6 +2,7 @@
 
 namespace common\models;
 
+use app\models\FavoriteUser;
 use common\commands\AddToTimelineCommand;
 use common\models\query\UserQuery;
 use Yii;
@@ -28,6 +29,9 @@ use yii\web\IdentityInterface;
  * @property integer $updated_at
  * @property integer $logged_at
  * @property string $password write-only password
+ * @property string $phone_number
+ * @property string $first_name
+ * @property string $last_name
  *
  * @property \common\models\UserProfile $userProfile
  */
@@ -168,6 +172,7 @@ class User extends ActiveRecord implements IdentityInterface
     {
         return [
             [['username', 'email'], 'unique'],
+            [['phone_number', 'first_name', 'last_name'], 'string'],
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => array_keys(self::statuses())],
             [['username'], 'filter', 'filter' => '\yii\helpers\Html::encode']
@@ -193,9 +198,12 @@ class User extends ActiveRecord implements IdentityInterface
     public function attributeLabels()
     {
         return [
-            'username' => Yii::t('common', 'Username'),
+            'username' => 'Логин',
             'email' => Yii::t('common', 'E-mail'),
             'status' => Yii::t('common', 'Status'),
+            'phone_number' => 'Номер телефона',
+            'first_name' => 'Имя',
+            'last_name' => 'Фамилия',
             'access_token' => Yii::t('common', 'API access token'),
             'created_at' => Yii::t('common', 'Created at'),
             'updated_at' => Yii::t('common', 'Updated at'),
@@ -312,5 +320,10 @@ class User extends ActiveRecord implements IdentityInterface
     public function getId()
     {
         return $this->getPrimaryKey();
+    }
+
+    public function getFavoriteUser()
+    {
+        return $this->hasOne(FavoriteUser::class, ['id' => 'user_id']);
     }
 }

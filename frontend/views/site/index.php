@@ -1,65 +1,79 @@
 <?php
+
+use common\grid\EnumColumn;
+use common\models\User;
+use kartik\date\DatePicker;
+use yii\helpers\Html;
+use yii\grid\GridView;
+use rmrevin\yii\fontawesome\FAS;
+
 /**
  * @var yii\web\View $this
+ * @var backend\models\search\UserSearch $searchModel
+ * @var yii\data\ActiveDataProvider $dataProvider
  */
-$this->title = Yii::$app->name;
+$this->title = Yii::t('backend', 'Users');
+$this->params['breadcrumbs'][] = $this->title;
 ?>
-<div class="site-index">
-    <div class="container">
-        <?php echo \common\widgets\DbCarousel::widget([
-            'key' => 'index',
-            'assetManager' => Yii::$app->getAssetManager(),
+
+<!--<div class="card">-->
+
+    <div class="card-body p-0">
+        <?php echo GridView::widget([
+            'dataProvider' => $dataProvider,
+            'filterModel' => $searchModel,
+            'layout' => "{items}\n{pager}",
             'options' => [
-                'class' => 'slide', // enables slide effect
+                'class' => ['gridview', 'table-responsive'],
             ],
-        ]) ?>
-
-        <div class="jumbotron">
-            <h1>Congratulations!</h1>
-
-            <p class="lead">You have successfully created your Yii-powered application.</p>
-
-            <?php echo \common\widgets\DbMenu::widget([
-                'key'=>'frontend-index',
-                'options'=>[
-                    'tag'=>'p'
-                ]
-            ]) ?>
-
-        </div>
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
-        </div>
-
+            'tableOptions' => [
+                'class' => ['table', 'text-nowrap', 'table-striped', 'table-bordered', 'mb-0'],
+            ],
+            'columns' => [
+                [
+                    'attribute' => 'id',
+                    'options' => ['style' => 'width: 5%'],
+                ],
+                'username',
+                'email',
+                'first_name',
+                'last_name',
+                'phone_number',
+                [
+                    'attribute' => 'created_at',
+                    'format' => 'datetime',
+                    'filter' => DatePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'created_at',
+                        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                        'pluginOptions' => [
+                            'format' => 'dd-mm-yyyy',
+                            'showMeridian' => true,
+                            'todayBtn' => true,
+                            'endDate' => '0d',
+                        ]
+                    ]),
+                ],
+                [
+                    'attribute' => 'logged_at',
+                    'format' => 'datetime',
+                    'filter' => DatePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'logged_at',
+                        'type' => DatePicker::TYPE_COMPONENT_APPEND,
+                        'pluginOptions' => [
+                            'format' => 'dd-mm-yyyy',
+                            'showMeridian' => true,
+                            'todayBtn' => true,
+                            'endDate' => '0d',
+                        ]
+                    ]),
+                ],
+            ],
+        ]); ?>
     </div>
-</div>
+
+    <div class="card-footer">
+        <?php echo getDataProviderSummary($dataProvider) ?>
+    </div>
+<!--</div>-->

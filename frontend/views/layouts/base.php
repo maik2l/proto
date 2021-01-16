@@ -11,8 +11,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 ?>
 <header>
     <?php NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
         'options' => [
             'class' => ['navbar-dark', 'bg-dark', 'navbar-expand-md'],
         ],
@@ -20,25 +18,14 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <?php echo Nav::widget([
         'options' => ['class' => ['navbar-nav', 'justify-content-end', 'ml-auto']],
         'items' => [
-            ['label' => Yii::t('frontend', 'Home'), 'url' => ['/site/index']],
-            ['label' => Yii::t('frontend', 'About'), 'url' => ['/page/view', 'slug'=>'about']],
-            ['label' => Yii::t('frontend', 'Articles'), 'url' => ['/article/index']],
-            ['label' => Yii::t('frontend', 'Contact'), 'url' => ['/site/contact']],
-            ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible'=>Yii::$app->user->isGuest],
-            ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible'=>Yii::$app->user->isGuest],
+            ['label' => "Контакты", 'url' => ['/users/index'], 'visible' => !Yii::$app->user->isGuest],
+            ['label' => "Избраные контакты", 'url' => ['/users/favorite-users'], 'visible' => !Yii::$app->user->isGuest],
+            ['label' => Yii::t('frontend', 'Signup'), 'url' => ['/user/sign-in/signup'], 'visible' => Yii::$app->user->isGuest],
+            ['label' => Yii::t('frontend', 'Login'), 'url' => ['/user/sign-in/login'], 'visible' => Yii::$app->user->isGuest],
             [
                 'label' => Yii::$app->user->isGuest ? '' : Yii::$app->user->identity->getPublicIdentity(),
-                'visible'=>!Yii::$app->user->isGuest,
+                'visible' => !Yii::$app->user->isGuest,
                 'items'=>[
-                    [
-                        'label' => Yii::t('frontend', 'Settings'),
-                        'url' => ['/user/default/index']
-                    ],
-                    [
-                        'label' => Yii::t('frontend', 'Backend'),
-                        'url' => Yii::getAlias('@backendUrl'),
-                        'visible'=>Yii::$app->user->can('manager')
-                    ],
                     [
                         'label' => Yii::t('frontend', 'Logout'),
                         'url' => ['/user/sign-in/logout'],
@@ -46,16 +33,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
                     ]
                 ]
             ],
-            [
-                'label'=>Yii::t('frontend', 'Language'),
-                'items'=>array_map(function ($code) {
-                    return [
-                        'label' => Yii::$app->params['availableLocales'][$code],
-                        'url' => ['/site/set-locale', 'locale'=>$code],
-                        'active' => Yii::$app->language === $code
-                    ];
-                }, array_keys(Yii::$app->params['availableLocales']))
-            ]
         ]
     ]); ?>
     <?php NavBar::end(); ?>
@@ -69,7 +46,6 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
     <div class="container">
         <div class="d-flex flex-row justify-content-between">
             <div>&copy; My Company <?php echo date('Y') ?></div>
-            <div><?php echo Yii::powered() ?></div>
         </div>
     </div>
 </footer>

@@ -12,6 +12,9 @@ class m210115_093906_add_column_phone_number_in_user_table extends Migration
      */
     public function safeUp()
     {
+        $this->addColumn('user', 'last_name', $this->string()->after('username'));
+        $this->addColumn('user', 'first_name', $this->string()->after('username'));
+        $this->addColumn('user', 'phone_number', $this->string()->after('username'));
 
     }
 
@@ -20,23 +23,8 @@ class m210115_093906_add_column_phone_number_in_user_table extends Migration
      */
     public function safeDown()
     {
-        echo "m210115_093906_add_column_phone_number_in_user_table cannot be reverted.\n";
-
-        return false;
+        $this->dropColumn('user', 'phone_number');
+        $this->dropColumn('user', 'first_name');
+        $this->dropColumn('user', 'last_name');
     }
-
-    /*
-    // Use up()/down() to run migration code without a transaction.
-    public function up()
-    {
-
-    }
-
-    public function down()
-    {
-        echo "m210115_093906_add_column_phone_number_in_user_table cannot be reverted.\n";
-
-        return false;
-    }
-    */
 }
